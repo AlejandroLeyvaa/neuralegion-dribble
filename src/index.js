@@ -1,4 +1,3 @@
-import { doc } from 'prettier';
 import free from './planet_simple.svg';
 import pro from './Planet_two_rings.svg';
 import enterprise from './Solar_system.svg';
