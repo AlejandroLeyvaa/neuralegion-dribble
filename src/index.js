@@ -17,8 +17,6 @@ const buttons = [...buyButton];
 const planets = [...planetElements];
 const arrows = [...arrowElement];
 
-console.log(freeCard, proCard, enterpriseCard);
-
 let state = {
   positionEnd: false,
   count: 0,
@@ -33,104 +31,161 @@ toggleButton.addEventListener('touchstart', toggle);
 toggleButton.addEventListener('click', toggle);
 window.addEventListener('load', insertImages);
 
-buttons.forEach((btn) => {
-  btn.addEventListener('click', buy);
-});
+// buttons.forEach((btn) => {
+//   btn.addEventListener('click', buy);
+// });
 
 function insertImages() {
   let svgPlanets = [free, pro, enterprise];
   planets.forEach((planet, index) => {
-    console.log(planet, index);
-    console.log(svgPlanets[index]);
     planet.src = svgPlanets[index];
   });
 }
 
 arrows.forEach((arrow, index) => {
   arrow.addEventListener('click', () => {
-    changeCard(index);
-    console.log(state.count);
+    setCount(index);
+    condition();
+    renderCard();
   });
 
   arrow.addEventListener('touchstart', () => {
-    changeCard(index);
-    console.log(state.count);
+    setCount(index);
+    condition();
+    renderCard();
   });
 });
 
-window.addEventListener('resize', (e) => {
-  if (window.screen.width >= 1024) {
-    freeCard.style.display = 'block';
-    proCard.style.display = 'block';
-    enterpriseCard.style.display = 'block';
-  } else {
-    freeCard.style.display = 'block';
-    proCard.style.display = 'none';
-    enterpriseCard.style.display = 'none';
+function setCount(index) {
+  // Card Left
 
-    console.log(window.screen.orientation.type === 'landscape-primary');
-    if (window.screen.orientation.type === 'landscape-primary') {
-      freeCard.style.display = 'flex';
-      proCard.style.display = 'none';
-      enterpriseCard.style.display = 'none';
-    };
-  };
-
-  // if(window.screen.orientation) {
-
-  // }
-});
-
-function changeCard(index) {
-  if (window.screen.width < 1023) {
-    if (index === 1) {
-      state.count += 1;
-      if (state.count > 2) {
-        state.count = 2;
-      }
+  if (index === 0) {
+    state.count -= 1;
+    if (state.count < 0) {
+      state.count = 0;
     }
+  }
 
-    if (index === 0) {
-      state.count -= 1;
-      if (state.count < 0) {
-        state.count = 0;
-      }
-    }
+  // Card Right
 
-    if (state.count === 0) {
-      if(window.screen.orientation.type === 'landscape-primary') {
-        freeCard.style.display = 'flex';
-      } else {
-        freeCard.style.display = 'block';
-      }
-      proCard.style.display = 'none';
-      enterpriseCard.style.display = 'none';
-    }
-
-    if (state.count === 1) {
-      if(window.screen.orientation.type === 'landscape-primary') {
-        proCard.style.display = 'flex';
-      } else {
-        proCard.style.display = 'block';
-      }
-      freeCard.style.display = 'none';
-      enterpriseCard.style.display = 'none';
-    }
-
-    if (state.count === 2) {
-      if(window.screen.orientation.type === 'landscape-primary') {
-        enterpriseCard.style.display = 'flex';
-      } else {
-        enterpriseCard.style.display = 'block';
-      }
-      proCard.style.display = 'none';
-      freeCard.style.display = 'none';
+  if (index === 1) {
+    state.count += 1;
+    if (state.count > 2) {
+      state.count = 2;
     }
   }
 }
 
+function condition() {
+  switch (state.count) {
+    case 0: {
+      state.free = true;
+      state.pro = false;
+      state.enterprise = false;
+      break;
+    }
+    case 1: {
+      state.free = false;
+      state.pro = true;
+      state.enterprise = false;
+      break;
+    }
+    case 2: {
+      state.free = false;
+      state.pro = false;
+      state.enterprise = true;
+      break;
+    }
+    default:
+      state.free = true;
+  }
+}
+
+function renderCard() {
+  if (state.free) {
+    freeCard.style.display = 'block';
+  } else {
+    freeCard.style.display = 'none';
+  }
+
+  if (state.pro) {
+    proCard.style.display = 'block';
+  } else {
+    proCard.style.display = 'none';
+  }
+
+  if (state.enterprise) {
+    enterpriseCard.style.display = 'block';
+  } else {
+    enterpriseCard.style.display = 'none';
+  }
+}
+
+window.addEventListener('load', (e) => {
+  state.count = 0;
+  if (window.screen.width > 1023) {
+    state.free = true;
+    state.pro = true;
+    state.enterprise = true;
+  } else {
+    state.free = true;
+    state.pro = false;
+    state.enterprise = false;
+  }
+});
+
+window.addEventListener('resize', (e) => {
+  if (window.screen.width > 1023) {
+    state.count = 0;
+    state.free = true;
+    state.pro = true;
+    state.enterprise = true;
+  } else {
+    state.count = 0;
+    state.free = true;
+    state.pro = false;
+    state.enterprise = false;
+  }
+  renderCard();
+});
+
+// function changeCard(index) {
+//   if(window.screen.width < 1023) {
+//     if(index === 1) {
+//       state.count+= 1;
+//     if(state.count > 2) {
+//       state.count = 2;
+//     };
+//   };
+
+//   if(index === 0) {
+//     state.count-= 1;
+//     if(state.count < 0) {
+//       state.count = 0;
+//     };
+//   };
+
+//   if(state.count === 0) {
+//     freeCard.style.display = 'block';
+//     proCard.style.display = 'none';
+//     enterpriseCard.style.display = 'none';
+//   };
+
+//   if(state.count === 1) {
+//     freeCard.style.display = 'none';
+//     enterpriseCard.style.display = 'none';
+//     proCard.style.display = 'block';
+//   };
+
+//   if(state.count === 2) {
+//     proCard.style.display = 'none';
+//     freeCard.style.display = 'none';
+//     enterpriseCard.style.display = 'block';
+//   };
+// };
+// };
+
 function toggle(e) {
-  console.log(e);
   const current = e.target;
   if (state.positionEnd === false) {
     state.positionEnd = true;
@@ -147,10 +202,9 @@ function toggle(e) {
 
 // const templateModal = ``;
 
-function buy(event) {
-  console.log(event);
-  const modal = document.createElement('div');
-  modal.classList.add('modal');
-  // modal.innerHTML = templateModal;
-  // document.body.appendChild();
-}
+// function buy(event) {
+//   const modal = document.createElement('div');
+//   modal.classList.add('modal');
+//   // modal.innerHTML = templateModal;
+//   // document.body.appendChild();
+// }
