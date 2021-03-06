@@ -1,6 +1,3 @@
-import free from './planet_simple.svg';
-import pro from './Planet_two_rings.svg';
-import enterprise from './Solar_system.svg';
 import './styles/styles.css';
 
 const toggleButton = document.querySelector('#button');
@@ -8,14 +5,13 @@ const freeCard = document.querySelector('.free');
 const proCard = document.querySelector('.pro');
 const enterpriseCard = document.querySelector('.enterprise');
 const buyButton = document.querySelectorAll('.buy');
-const planetElements = document.querySelectorAll('.planet');
 const arrowElement = document.querySelectorAll(
   '.next-buttons-container .button'
 );
 
 const buttons = [...buyButton];
-const planets = [...planetElements];
 const arrows = [...arrowElement];
+
 
 let state = {
   positionEnd: false,
@@ -29,18 +25,10 @@ let state = {
 
 toggleButton.addEventListener('touchstart', toggle);
 toggleButton.addEventListener('click', toggle);
-window.addEventListener('load', insertImages);
 
-// buttons.forEach((btn) => {
-//   btn.addEventListener('click', buy);
-// });
-
-function insertImages() {
-  let svgPlanets = [free, pro, enterprise];
-  planets.forEach((planet, index) => {
-    planet.src = svgPlanets[index];
-  });
-}
+buttons.forEach((btn) => {
+  btn.addEventListener('click', buy);
+});
 
 arrows.forEach((arrow, index) => {
   arrow.addEventListener('click', () => {
@@ -202,9 +190,10 @@ function toggle(e) {
 
 // const templateModal = ``;
 
-// function buy(event) {
-//   const modal = document.createElement('div');
-//   modal.classList.add('modal');
-//   // modal.innerHTML = templateModal;
-//   // document.body.appendChild();
-// }
+function buy(event) {
+  console.log(event);
+  const modal = document.createElement('div');
+  modal.classList.add('modal');
+  // modal.innerHTML = templateModal;
+  // document.body.appendChild();
+}
