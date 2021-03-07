@@ -23,7 +23,6 @@ let state = {
   enterprise: false,
 };
 
-toggleButton.addEventListener('touchstart', toggle);
 toggleButton.addEventListener('click', toggle);
 
 buttons.forEach((btn) => {
@@ -32,12 +31,6 @@ buttons.forEach((btn) => {
 
 arrows.forEach((arrow, index) => {
   arrow.addEventListener('click', () => {
-    setCount(index);
-    condition();
-    renderCard();
-  });
-
-  arrow.addEventListener('touchstart', () => {
     setCount(index);
     condition();
     renderCard();
@@ -111,7 +104,7 @@ function renderCard() {
 
 window.addEventListener('load', (e) => {
   state.count = 0;
-  if (window.screen.width > 1023) {
+  if (window.innerWidth > 1023) {
     state.free = true;
     state.pro = true;
     state.enterprise = true;
@@ -123,7 +116,7 @@ window.addEventListener('load', (e) => {
 });
 
 window.addEventListener('resize', (e) => {
-  if (window.screen.width > 1023) {
+  if (window.innerWidth > 1023) {
     state.count = 0;
     state.free = true;
     state.pro = true;
@@ -137,54 +130,18 @@ window.addEventListener('resize', (e) => {
   renderCard();
 });
 
-// function changeCard(index) {
-//   if(window.screen.width < 1023) {
-//     if(index === 1) {
-//       state.count+= 1;
-//     if(state.count > 2) {
-//       state.count = 2;
-//     };
-//   };
-
-//   if(index === 0) {
-//     state.count-= 1;
-//     if(state.count < 0) {
-//       state.count = 0;
-//     };
-//   };
-
-//   if(state.count === 0) {
-//     freeCard.style.display = 'block';
-//     proCard.style.display = 'none';
-//     enterpriseCard.style.display = 'none';
-//   };
-
-//   if(state.count === 1) {
-//     freeCard.style.display = 'none';
-//     enterpriseCard.style.display = 'none';
-//     proCard.style.display = 'block';
-//   };
-
-//   if(state.count === 2) {
-//     proCard.style.display = 'none';
-//     freeCard.style.display = 'none';
-//     enterpriseCard.style.display = 'block';
-//   };
-// };
-// };
-
 function toggle(e) {
   const current = e.target;
   if (state.positionEnd === false) {
     state.positionEnd = true;
     state.annual = false;
     state.monthly = true;
-    toggleButton.style.justifyContent = 'end';
+    toggleButton.style.justifyContent = 'flex-end';
   } else {
     state.positionEnd = false;
     state.annual = true;
     state.monthly = false;
-    toggleButton.style.justifyContent = 'start';
+    toggleButton.style.justifyContent = 'flex-start';
   }
 }
 
